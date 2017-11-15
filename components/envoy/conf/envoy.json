@@ -1,0 +1,60 @@
+{
+  "listeners": [
+    {
+      "address": "tcp://0.0.0.0:80",
+      "filters": [
+        {
+          "type": "read",
+          "name": "http_connection_manager",
+          "config": {
+            "codec_type": "auto",
+            "stat_prefix": "ingress_http",
+            "route_config": {
+              "virtual_hosts": [
+                {
+                  "name": "service",
+                  "domains": ["*"],
+                  "routes": [
+                    {
+                      "timeout_ms": 0,
+                      "prefix": "/",
+                      "cluster": "cpu_mem_service"
+                    }
+                  ]
+                }
+              ]
+            },
+            "filters": [
+              {
+                "type": "decoder",
+                "name": "router",
+                "config": {}
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "admin": {
+    "access_log_path": "/tmp/envoy-access-log",
+    "address": "tcp://0.0.0.0:8001"
+  },
+  "statsd_udp_ip_address": "10.10.200.43:8125",
+  "cluster_manager": {
+    "clusters": [
+      {
+        "name": "cpu_mem_service",
+        "connect_timeout_ms": 8000,
+        "type": "static",
+        "lb_type": "round_robin",
+        "hosts": [
+          {
+            "url": "tcp://10.10.200.43:8080"
+          }
+        ]
+      }
+    ]
+  }
+}
+
