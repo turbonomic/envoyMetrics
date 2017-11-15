@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: video-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "video-app-pods"
+        purpose: "istio-test"
+    spec:
+      containers:
+      - name: "web-app"
+        image: beekman9527/webapp
+        resources:
+          limits:
+            cpu: "100m"
+          requests:
+            cpu: "2m"
+        ports: 
+        - containerPort: 8080
+      - name: "istio-sidecar"
+        image: beekman9527/envoy-debug:latest
+        ports:
+        - containerPort: 8001
+          name: admin
+        - containerPort: 80
+          name: work
+
+

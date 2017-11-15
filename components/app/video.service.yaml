@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: video-service
+spec:
+  selector:
+    app: video-app-pods
+  type: LoadBalancer
+  ports:
+    - name: tcp-80
+      protocol: TCP
+      port: 80
+      targetPort: 80
