@@ -46,7 +46,10 @@ sh run.sh
 ```
 
 If everything works fine, the metrics can be accessed via `http://localhost:9102/metrics`.
-Make sure *envoy_cluster* related metrics can be found in the results of `http://localhost:9102/metrics`. 
+
+Make sure *envoy_cluster* related metrics can be found in the results of `http://localhost:9102/metrics`. If not, check the two settings in `Envoy` configuration file:
+* [address of statsd_exporter](https://github.com/songbinliu/envoyMetrics/blob/a73841bc562b5255a136baca7d3585764c50a601/components/envoy/conf/envoy.json#L42)
+* [address of App](https://github.com/songbinliu/envoyMetrics/blob/a73841bc562b5255a136baca7d3585764c50a601/components/envoy/conf/envoy.json#L52)
 
 
 ### Sample metrics from statsd_exporter
