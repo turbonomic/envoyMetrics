@@ -19,13 +19,13 @@ Here provides a way to build statsd docker image and run the image.
 
  **servers**: define the port to receive metrics from Envoy.
  
-      Here it will lisen on port 8125 for `udp` messages (metrics).
+      Here it will lisen on port 8125 for udp messages (metrics).
       
- **backends**: defines a repeater, to send the received metrics to another server (for example, `statsd_exporter`).
+ **backends**: type of the backend. Here defines a repeater, `statsd` will send the received metrics to the repeater.
  
- **repater**: the server address of `statsd_exporter` (or another `statsd` to receive the metrics).
+ **repater**: the server address of the repeater (`statsd_exporter`, or another `statsd` to receive the metrics).
      
-      Here, `statsd` will send metrics to a repeater at *localhost:9125* through `udp` protocol.
+      Here, statsd will send metrics to a repeater at *localhost:9125* through udp protocol.
       Note: make sure that the address and protocol of repeater is correct.
 
 
