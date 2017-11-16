@@ -12,7 +12,7 @@ Here provides a way to build statsd docker image and run the image.
  servers: [{server: "./servers/udp", address:"0.0.0.0", port: 8125}]
 , backends: [ "./backends/repeater" ]
 , debug: true
-, repeater: [ { host: 'localhost', port: 9125} ]
+, repeater: [ { host: '10.10.200.43', port: 9125} ]
 , repeaterProtocol: "udp4"
 }
 ```
@@ -25,7 +25,7 @@ Here provides a way to build statsd docker image and run the image.
  
  **repater**: the server address of the repeater (`statsd_exporter`, or another `statsd` to receive the metrics).
      
-      Here, statsd will send metrics to a repeater at *localhost:9125* through udp protocol.
+      Here, statsd will send metrics to a repeater at 10.10.200.43:9125 through udp protocol.
       Note: make sure that the address and protocol of repeater is correct.
 
 
