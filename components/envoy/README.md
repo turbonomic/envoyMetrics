@@ -15,7 +15,7 @@ In this demo, `Envoy` will work as a http proxy for our service. As a proxy, the
 * Address of the real service: how this proxy can access the service it proxies for. In Envoy's world, it is `Cluster`.
 
 In addition, there are two more settings which is interesting in out demo:
-* Address of statsd server: `Envoy` will send metrics to this [`statsd`](https://github.com/etsy/statsd) server.
+* Address of statsd server: `Envoy` will send metrics to the [`statsd`](https://github.com/etsy/statsd) server of this address.
    
    In this demo, we will replace `statsd` with a [`statsd_exporter`](https://github.com/songbinliu/statsd_exporter) server.
 
@@ -26,11 +26,119 @@ In addition, there are two more settings which is interesting in out demo:
 
 #### Configuration for Listener
 
+The listener will listen on port 80. It has a `http_connection_manager` is used to proxy the http requests.
+`http_connection_manager` works on network level, but it can also understand http protocol (by translate the raw bytes into http level messages). 
+More inforation about `http_connection_manager` can be found on [Envoy's online documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/http_conn_man).
+
+In the following configuration, `Envoy` will forward the http request on port 80 to a cluster with name `video_service`.
+
+
+```json
+"listeners": [
+    {
+      "address": "tcp://0.0.0.0:80",
+      "filters": [
+        {
+          "name": "http_connection_manager",
+          "config": {
+            "codec_type": "auto",
+            "stat_prefix": "ingress_http",
+            "route_config": {
+              "virtual_hosts": [
+                {
+                  "name": "service",
+                  "domains": ["*"],
+                  "routes": [
+                    {
+                      "timeout_ms": 0,
+                      "prefix": "/",
+                      "cluster": "video_service"
+                    }
+                  ]
+                }
+              ]
+            },
+            "filters": [
+              {
+                "type": "decoder",
+                "name": "router",
+                "config": {}
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+```
+
 #### Configuration for cluster
 
+In the `cluster_manager`, a cluster with name `video_service` is defined. `Envoy` will forward to the http requests to one of 
+the `hosts` in this cluster. 
+
+In this demo, we have only one app instance, so there is only one host in this cluster.
+
+```json
+"cluster_manager": {
+    "clusters": [
+      {
+        "name": "video_service",
+        "connect_timeout_ms": 8000,
+        "type": "static",
+        "lb_type": "round_robin",
+        "hosts": [
+          {
+            "url": "tcp://10.10.200.43:8080"
+          }
+        ]
+      }
+    ]
+  }
+```
+
+**NOTE**: change the `10.10.200.43:8080` to the app's real address, and make sure `Envoy` can access it.
+
+
 #### Address of statsd
+Envoy will send all the metrics, including the timer metrics to the `statsd`. In this demo, we will replace `statsd` with
+[`statsd_exporter`](https://github.com/songbinliu/envoyMetrics/tree/master/components/statsd_exporter), for easier integration with `Prometheus`.
+
+```json
+  "statsd_udp_ip_address": "10.10.200.43:8125",
+```
+**NOTE**: change the `10.10.200.43:8125` to the real `statsd_exporter` address, and make sure `Envoy` can access it.
+
 
 #### Configuration for the Admin interface
+
+`Envoy` will listen on this interface for management, and expose some metrics.
+
+```json
+"admin": {
+    "access_log_path": "/tmp/envoy-access-log",
+    "address": "tcp://0.0.0.0:8001"
+  },
+```
+
+This interface expose following information:
+
+```terminal
+envoy admin commands:
+  /certs: print certs on machine
+  /clusters: upstream cluster status
+  /cpuprofiler: enable/disable the CPU profiler
+  /healthcheck/fail: cause the server to fail health checks
+  /healthcheck/ok: cause the server to pass health checks
+  /hot_restart_version: print the hot restart compatability version
+  /listeners: print listener addresses
+  /logging: query/change logging levels
+  /quitquitquit: exit the server
+  /reset_counters: reset all counters to zero
+  /routes: print out currently loaded dynamic HTTP route tables
+  /server_info: print server version/status information
+  /stats: print server stats
+```
 
 
 ## build docker image of statsd
