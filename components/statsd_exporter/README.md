@@ -2,7 +2,7 @@
 `statsd_exporter` is used to receive the metrics (in `statsd` format) from [`Envoy`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin), 
 and transform the metrics into [`Prometheus`](https://prometheus.io) format.
 
-We will build a docker image for `stats_exporter` with some customerization:
+We will build a docker image for `stats_exporter` with [some customerization](https://github.com/songbinliu/statsd_exporter/tree/k8s):
 * Providing a debug mode: log the number of metrics;
 * Setting the default mapping for timer metrics to `Prometheus` histogram.
 
