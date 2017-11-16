@@ -122,7 +122,7 @@ Optional Variables:
 
 {
  servers: [{server: "./servers/udp", address:"0.0.0.0", port: 8125}]
- backends: [ "./backends/repeater" ]
+, backends: [ "./backends/repeater" ]
 , debug: true
 , repeater: [ { host: '10.10.200.43', port: 9125} ]
 , repeaterProtocol: "udp4"
