@@ -1,13 +1,13 @@
 # statsd 
 Envoy will send timer metrics (such as response time) to statsd.
 
-**Update**: Since Envoy can send metrics directly to [`statsd_exporter`](https://github.com/songbinliu/statsd_exporter), `statsd` is not necessary to get timer metrics.
+**Update**: Since Envoy can send metrics directly to [`statsd_exporter`](https://github.com/songbinliu/statsd_exporter), we don't need `statsd` to get timer metrics.
 
 
 Here provides a way to build statsd docker image and run the image.
 
 ### configuration
-```json
+```yaml
 {
  servers: [{server: "./servers/udp", address:"0.0.0.0", port: 8125}]
 , backends: [ "./backends/repeater" ]
@@ -33,7 +33,9 @@ Here provides a way to build statsd docker image and run the image.
 
 The `build.sh` script will build a docker image:
 First, it will pull statsd from github.
+
 Second, it will provide a customized config.js for statsd.
+
 Third, expose the two ports: 
    * udp port 8125: to receive metrics from Envoy.
    * tcp port 8126: for management.
