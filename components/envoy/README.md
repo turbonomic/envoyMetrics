@@ -9,19 +9,19 @@ Here provides a way to build a customized docker image of `Envoy`, which can loa
 In this demo, `Envoy` will be deployed as a *Service Envoy*: proxy the service of the single App instance.
 
 ## Configuration for envoy
-In this demo, `Envoy` will work as a http proxy for our service. As a proxy, the configuration of it at least has two components:
+The configuration has four interesting components to us:
 * Network setting for incoming requests : which is about the `Listener` in Envoy's word.
 
 * Address of the real service: how this proxy can access the service it proxies for. In Envoy's world, it is `Cluster`.
 
-In addition, there are two more settings which is interesting in out demo:
 * Address of statsd server: `Envoy` will send metrics to the [`statsd`](https://github.com/etsy/statsd) server of this address.
    
    In this demo, we will replace `statsd` with a [`statsd_exporter`](https://github.com/songbinliu/statsd_exporter) server.
 
 * Network settings of Admin interface: We can manage envoy through this interface, as well as to access some primitive metrics (not including the timer metrics).
 
-[Here](https://www.datawire.io/guide/traffic/getting-started-lyft-envoy-microservices-resilience/) is a better explaination of the Envoy's configuration file.
+Better explaination of the Envoy's configuration can be found [here](https://www.datawire.io/guide/traffic/getting-started-lyft-envoy-microservices-resilience/) 
+and [here](https://www.envoyproxy.io/docs/envoy/latest/configuration/configuration).
 
 
 #### Configuration for Listener
