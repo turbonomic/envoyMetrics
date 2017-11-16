@@ -175,6 +175,7 @@ Two ports shold be exposed:
   
   ### Access the proxied service
   If everything is correct, the `video service` can be accessed through `Envoy` via `http://localhost:9090/workload.php/?value=100`.
+  
   To access the `video service` directly, go `http://localhost:8080/workload.php/?value=100`.
   
   
