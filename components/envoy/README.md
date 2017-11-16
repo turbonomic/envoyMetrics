@@ -111,10 +111,24 @@ cluster_manager.total_clusters: 1
  ```
   
  ### Provide the correct configuration for Envoy
- Two modifications before running the docker image of `conf/envoy.json`:
- * Set the correct App address [this line](https://github.com/songbinliu/envoyMetrics/blob/7667e5718bbb23ef2b81c1610d8868172d3d3db0/components/envoy/conf/envoy.json#L52): `localhost` will not work if the two containers are not running in the same k8s Pod.
+ Two modifications to `conf/envoy.json` before running the docker image.
  
- * Set the correct address of `statsd` (or `statsd_exporter`) in [this line](https://github.com/songbinliu/envoyMetrics/blob/master/components/envoy/conf/envoy.json#L42): `localhost` will not work if the containers are not running in the same k8s Pod.
+  * Set the correct [App address](https://github.com/songbinliu/envoyMetrics/blob/7667e5718bbb23ef2b81c1610d8868172d3d3db0/components/envoy/conf/envoy.json#L52)
+ ```json
+ "hosts": [
+          {
+            "url": "tcp://10.10.200.43:8080"
+          }
+        ]
+ ```
+ Change the `10.10.200.43:8080` to the address, that `Envoy` running in the container can access it.
+ (`localhost` will not work if the containers are not running in the same k8s Pod.)
  
+ 
+ * Set the correct [`statsd` (or `statsd_exporter`) address](https://github.com/songbinliu/envoyMetrics/blob/master/components/envoy/conf/envoy.json#L42)
+ ```json
+   "statsd_udp_ip_address": "10.10.200.43:8125",
+ ```
+ Change the `10.10.200.43:8125` to the address, that `Envoy` running in the container can access it.
  
  
