@@ -8,7 +8,7 @@ Here provides a way to build a customized docker image of `Envoy`, which can loa
 
 In this demo, `Envoy` will be deployed as a *Service Envoy*: proxy the service of the single App instance.
 
-### configuration for envoy
+## Configuration for envoy
 In this demo, `Envoy` will work as a http proxy for our service. As a proxy, the configuration of it at least has two components:
 * Network setting for incoming requests : which is about the `Listener` in Envoy's word.
 
@@ -33,7 +33,7 @@ In addition, there are two more settings which is interesting in out demo:
 #### Configuration for the Admin interface
 
 
-### build docker image of statsd
+## build docker image of statsd
 
 The `build.sh` script will build a docker image.
 
@@ -53,7 +53,9 @@ CMD ["-c /etc/envoy/envoy.json", "-l debug"]
 ```
 
 
-### run the docker image
+## run the docker image
+
+Make sure change the [address of statsd](https://github.com/songbinliu/envoyMetrics/blob/7667e5718bbb23ef2b81c1610d8868172d3d3db0/components/envoy/conf/envoy.json#L42) and [address of app](https://github.com/songbinliu/envoyMetrics/blob/7667e5718bbb23ef2b81c1610d8868172d3d3db0/components/envoy/conf/envoy.json#L52) in `conf/envoy.json` before running the docker image.
 
 ```bash
 conf=`pwd`/conf
