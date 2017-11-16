@@ -24,7 +24,7 @@ In this script, we provide the http request with a parameter `value=100`, which 
 If `Envoy` is deployed for this service as [specified here](https://github.com/songbinliu/envoyMetrics/tree/master/components/envoy), then the service can access through another port:
 
 ```bash
-curl http://localhost:8080/workload.php/?value=100
+curl http://localhost:9090/workload.php/?value=100
 ``` 
 
 
