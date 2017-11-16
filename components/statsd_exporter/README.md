@@ -22,7 +22,7 @@ docker run -d -p 8125:9125/udp -p 9102:9102 beekman9527/statsd_exporter
 # Access the metrics
 The metrics can be accessed through `http://hostIP:9102/metrics`, the endpoint which `Prometheus` can scrape to collect metrics.
 
-Here are some snipts of the metrics:
+Here are some samples of the metrics:
 
 ```terminal
 ...
