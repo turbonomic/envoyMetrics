@@ -1,7 +1,10 @@
 # A demo App
 
 Since we want to demo how to get http response time through `Envoy`, 
-we will deploy a demo app to simulate a http service, which will have a latency of specified milliseconds for each http request.
+we will deploy a demo app to simulate a http service, which will have a latency of specified milliseconds for each http request. 
+
+[Here](https://github.com/songbinliu/webApp) has more information of this demo App.
+
 
 # Run the app as docker container
 
