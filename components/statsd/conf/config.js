@@ -117,12 +117,13 @@ Optional Variables:
 
   automaticConfigReload: whether to watch the config file and reload it when it
                          changes. The default is true. Set this to false to disable.
+
 */
 
 {
  servers: [{server: "./servers/udp", address:"0.0.0.0", port: 8125}]
  backends: [ "./backends/repeater" ]
 , debug: true
-, repeater: [ { host: 'localhost', port: 9125} ]
+, repeater: [ { host: '10.10.200.43', port: 9125} ]
 , repeaterProtocol: "udp4"
 }
