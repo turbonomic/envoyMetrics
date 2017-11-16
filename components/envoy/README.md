@@ -141,7 +141,7 @@ envoy admin commands:
 ```
 
 
-## build docker image of statsd
+## Build docker image of envoy
 
 The `build.sh` script will build a docker image.
 
@@ -161,7 +161,7 @@ CMD ["-c /etc/envoy/envoy.json", "-l debug"]
 ```
 
 
-## run the docker image
+## Run the docker image
 
 Make sure change the [address of statsd](https://github.com/songbinliu/envoyMetrics/blob/7667e5718bbb23ef2b81c1610d8868172d3d3db0/components/envoy/conf/envoy.json#L42) and [address of app](https://github.com/songbinliu/envoyMetrics/blob/7667e5718bbb23ef2b81c1610d8868172d3d3db0/components/envoy/conf/envoy.json#L52) in `conf/envoy.json` before running the docker image.
 
@@ -172,6 +172,11 @@ docker run -d -p 9090:80 -p 8001:8001  -v $conf:/etc/envoy beekman9527/envoy
 Two ports shold be exposed:
   * Port(80) for listener: which is binded to host's port 9090. 
   * Port(8001) for admin: which is binded to host's port 8001; the metrics(timer metrics are not included) can be accessed through this port.
+  
+  ### Access the proxied service
+  If everything is correct, the `video service` can be accessed through `Envoy` via `http://localhost:9090/workload.php/?value=100`.
+  To access the `video service` directly, go `http://localhost:8080/workload.php/?value=100`.
+  
   
   ### Access the primitive metrics
   The primitive metrics can be access via http://localhost:8001/stats. However, it does not include the timer metrics, 
